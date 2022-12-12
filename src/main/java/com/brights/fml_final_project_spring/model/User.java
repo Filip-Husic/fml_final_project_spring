@@ -5,8 +5,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -32,22 +36,53 @@ public class User {
     @Setter
     private String email;
 
+    @Column(name = "username",length = 30, nullable = false,unique = true)
+    @Getter
+    @Setter
+    private String username;
+    @Size(min = 6)
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$",
+            message = "Password can only contain letters, numbers and underscores!")
+    @Column
+    @Getter
+    @Setter
+    private String password;
+
+    @Column
+    @Getter
+    @Setter
+    private boolean isEnabled;
+
     @OneToMany(mappedBy = "user")
     @Getter
     @Setter
-    private List<Post> post = new ArrayList<>();
+    private List<Post> postList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @Getter
     @Setter
     private List<Comment> comments = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     public User() {
     }
 
-    public User(String firstName, String lastName, String email) {
+    public User(String firstName, String lastName, String email, String username, String password, boolean isEnabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.username = username;
+        this.password = password;
+        this.isEnabled = isEnabled;
+    }
+    public void addPost(Post post){
+        this.postList.add(post);
     }
 }

@@ -30,9 +30,10 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         postDetails.setPostedDate(new Date());
-        postDetails.setPostedBy(user);
+        postDetails.setUser(user);
 
         Post post = postService.savePost(postDetails);
+        user.addPost(post);
 
         return new ResponseEntity<>(post, HttpStatus.CREATED);
     }

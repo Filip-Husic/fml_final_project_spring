@@ -1,22 +1,28 @@
 package com.brights.fml_final_project_spring.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table
-@JsonIgnoreProperties("hibernateLazyInitializer")
-public class Comment {
+@Table(name = "roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
     private Long id;
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     @Getter
     @Setter
-    private User user;
+    private ERole name;
+
+    public Role() {
+    }
+
+    public Role(ERole name) {
+        this.name = name;
+    }
 }

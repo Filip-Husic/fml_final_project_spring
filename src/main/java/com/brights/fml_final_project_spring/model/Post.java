@@ -28,10 +28,9 @@ public class Post {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "posted_by")
     @Getter
     @Setter
-    private User postedBy;
+    private User user;
 
     @Column(name = "posted_date")
     @Getter
@@ -41,9 +40,8 @@ public class Post {
     public Post() {
     }
 
-    public Post(String title, String content, User postedBy) {
+    public Post(String title, String content) {
         this.title = title;
         this.content = content;
-        this.postedBy = postedBy;
     }
 }
