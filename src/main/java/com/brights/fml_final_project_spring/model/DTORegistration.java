@@ -1,5 +1,12 @@
 package com.brights.fml_final_project_spring.model;
-import javax.validation.constraints.NotEmpty;
+
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 public class DTORegistration {
@@ -10,6 +17,19 @@ public class DTORegistration {
     private String password1;
 
     private String password2;
+    @Getter
+    @Setter
+    private String roles;
+
+    @Getter
+    @Setter
+    private boolean isEnabled;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    @Getter @Setter
+    private User user;
 
     public DTORegistration(String username, String password1, String password2) {
         this.username = username;

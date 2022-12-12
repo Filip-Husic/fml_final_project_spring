@@ -27,32 +27,27 @@ public class User {
     @Getter
     @Setter
     private String lastName;
-    @Column(name = "username",length = 50,nullable = false,unique = true)
-    @Getter
-    @Setter
-    private String username;
     @Column(name = "email",length = 50,nullable = false,unique = true)
     @Getter
     @Setter
     private String email;
-    @Column(name = "password",length = 50,nullable = false)
-    @Getter
-    @Setter
-    private String password;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @Getter
     @Setter
-    private List<Post> postList = new ArrayList<>();
+    private List<Post> post = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @Getter
+    @Setter
+    private List<Comment> comments = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String username, String email, String password) {
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
         this.email = email;
-        this.password = password;
     }
 }
