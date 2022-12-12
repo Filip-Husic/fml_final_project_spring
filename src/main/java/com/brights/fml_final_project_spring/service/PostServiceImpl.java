@@ -20,4 +20,13 @@ public class PostServiceImpl implements PostService {
     public Post savePost(Post post) {
         return this.postRepository.save(post);
     }
+
+    @Override
+    public void deletePostById(long id) {
+
+    }
+
+
 }
+
+

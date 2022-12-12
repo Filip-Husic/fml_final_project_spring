@@ -24,7 +24,7 @@ public class PostController {
     }
 
     @PostMapping("/post/{userId}")
-    public ResponseEntity<Post> createPost( @PathVariable Long userId, @RequestBody Post postDetails) {
+    public ResponseEntity<Post> createPost(@PathVariable Long userId, @RequestBody Post postDetails) {
         User user = userService.getUserById(userId);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -35,5 +35,10 @@ public class PostController {
         Post post = postService.savePost(postDetails);
 
         return new ResponseEntity<>(post, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/post/delete/{id}")
+    public void deletePost(@PathVariable(value = "id") long id) {
+        postService.deletePostById(id);
     }
 }
