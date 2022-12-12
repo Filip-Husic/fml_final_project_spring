@@ -1,5 +1,6 @@
 package com.brights.fml_final_project_spring.service;
 
+import com.brights.fml_final_project_spring.model.Post;
 import com.brights.fml_final_project_spring.repository.PostRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,5 +14,10 @@ public class PostServiceImpl implements PostService {
 
     public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
+    }
+
+    @Override
+    public Post savePost(Post post) {
+        return this.postRepository.save(post);
     }
 }

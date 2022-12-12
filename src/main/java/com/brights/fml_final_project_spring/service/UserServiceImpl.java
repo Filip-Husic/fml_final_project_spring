@@ -1,5 +1,6 @@
 package com.brights.fml_final_project_spring.service;
 
+import com.brights.fml_final_project_spring.model.User;
 import com.brights.fml_final_project_spring.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,5 +14,10 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 }
