@@ -32,4 +32,19 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
     }
+
+    @Override
+    public User updateUserById(long id, User user) {
+        User userData = getUserById(id);
+        if(userData != null) {
+            userData.setFirstName(user.getFirstName());
+            userData.setLastName(user.getLastName());
+            userData.setEmail(user.getEmail());
+            userData.setUsername(user.getUsername());
+            userData.setPassword(user.getPassword());
+            userData.setEnabled(user.isEnabled());
+            return userData;
+        }
+        return null;
+    }
 }

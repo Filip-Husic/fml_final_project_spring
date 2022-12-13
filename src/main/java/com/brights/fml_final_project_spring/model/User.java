@@ -31,6 +31,7 @@ public class User {
     @Getter
     @Setter
     private String lastName;
+
     @Column(name = "email",length = 50,nullable = false,unique = true)
     @Getter
     @Setter
@@ -88,4 +89,7 @@ public class User {
     public void addPost(Post post){
         this.postList.add(post);
     }
+
+
 }
+

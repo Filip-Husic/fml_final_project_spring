@@ -46,4 +46,23 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
+        User user = userService.getUserById(id);
+
+        if(user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @PutMapping("/user/update/{id}") // PUT in REST API
+    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
+        User user1 = userService.updateUserById(id, user);
+        if(user1 != null ) {
+            return new ResponseEntity<>(userService.saveUser(user1), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
 }
