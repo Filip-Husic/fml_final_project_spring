@@ -42,18 +42,27 @@ public class PostController {
     }
     @CrossOrigin
     @GetMapping("/post")
-    public ResponseEntity<List<Post>> showAllPosts(){
+    public ResponseEntity<List<Post>> showAllPosts() {
         try {
             List<Post> postList = postService.getAllPosts();
-            if (postList.isEmpty()){
+            if (postList.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }else {
-                return new ResponseEntity<>(postList,HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(postList, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+        @PutMapping("/post/update/{id}")
+        public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody Post post) {
+            Post post1 = postService.updatePostById(id, post);
+            if(post1 != null ) {
+                return new ResponseEntity<>(postService.savePost(post1), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     @CrossOrigin
     @DeleteMapping("/post/delete/{id}")
     public void deletePost(@PathVariable(value = "id") long id) {

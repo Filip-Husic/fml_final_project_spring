@@ -1,6 +1,7 @@
 package com.brights.fml_final_project_spring.service;
 
 import com.brights.fml_final_project_spring.model.Post;
+import com.brights.fml_final_project_spring.model.User;
 import com.brights.fml_final_project_spring.repository.PostRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,12 +25,30 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Post updatePostById(long id, Post post) {
+        Post postData = getPostById(id);
+        if(postData != null) {
+            postData.setTitle(post.getTitle());
+            postData.setContent(post.getContent());
+            postData.setPostedDate(post.getPostedDate());
+            return postData;
+        }
+        return null;
+    }
+
+
+    @Override
     public void deletePostById(long id) {
         boolean exists = this.postRepository.existsById(id);
         if (!exists) {
             throw new IllegalStateException("Post with id " + id + " was not found.");
         }
         this.postRepository.deleteById(id);
+    }
+
+    @Override
+    public Post getPostById(Long postId) {
+        return postRepository.findById(postId).orElse(null);
     }
 
 
