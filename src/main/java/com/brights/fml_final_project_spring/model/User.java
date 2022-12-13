@@ -53,9 +53,12 @@ public class User {
     @Setter
     private boolean isEnabled;
 
-    @OneToMany(mappedBy = "user")
-    @Getter
-    @Setter
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_posts",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "post_id") }
+    )
     private List<Post> postList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")

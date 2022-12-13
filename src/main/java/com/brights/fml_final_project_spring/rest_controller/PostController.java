@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -37,8 +38,21 @@ public class PostController {
 
         return new ResponseEntity<>(post, HttpStatus.CREATED);
     }
+    @GetMapping("/post")
+    public ResponseEntity<List<Post>> showAllPosts(){
+        try {
+            List<Post> postList = postService.getAllPosts();
+            if (postList.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<>(postList,HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-    @GetMapping("/post/delete/{id}")
+    @DeleteMapping("/post/delete/{id}")
     public void deletePost(@PathVariable(value = "id") long id) {
         postService.deletePostById(id);
     }

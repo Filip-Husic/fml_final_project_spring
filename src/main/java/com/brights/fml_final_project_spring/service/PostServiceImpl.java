@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
     @Getter
@@ -24,6 +26,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePostById(long id) {
 
+    }
+
+    @Override
+    public List<Post> getAllPosts() {
+        return (List<Post>) postRepository.findAll();
     }
 
 
