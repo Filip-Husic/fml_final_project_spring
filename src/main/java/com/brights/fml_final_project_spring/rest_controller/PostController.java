@@ -54,6 +54,15 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/post/{id}")
+    public ResponseEntity<Post> getPostById(@PathVariable("id") long id) {
+        Post post = postService.getPostById(id);
+
+        if(post != null) {
+            return new ResponseEntity<>(post, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
         @PutMapping("/post/update/{id}")
         public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody Post post) {
             Post post1 = postService.updatePostById(id, post);

@@ -63,6 +63,12 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    @CrossOrigin
+    @DeleteMapping("/user/delete/{id}")
+    public void deleteUser(@PathVariable(value = "id") long id) {
+
+        userService.deleteUserById(id);
+    }
 
 
 }

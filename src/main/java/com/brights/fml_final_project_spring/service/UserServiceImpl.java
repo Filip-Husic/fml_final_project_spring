@@ -47,4 +47,13 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public void deleteUserById(long id) {
+        boolean exists = this.userRepository.existsById(id);
+        if (!exists) {
+            throw new IllegalStateException("User with id " + id + " was not found.");
+        }
+        this.userRepository.deleteById(id);
+    }
 }
