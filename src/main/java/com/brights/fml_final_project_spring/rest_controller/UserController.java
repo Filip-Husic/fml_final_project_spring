@@ -19,6 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @CrossOrigin
     @PostMapping("/user")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
@@ -31,6 +32,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("/user")
     public ResponseEntity<List<User>> showAllUsers(){
         try {

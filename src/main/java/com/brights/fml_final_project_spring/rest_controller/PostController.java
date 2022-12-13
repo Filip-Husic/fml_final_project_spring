@@ -24,6 +24,8 @@ public class PostController {
         this.userService = userService;
     }
 
+
+    @CrossOrigin
     @PostMapping("/post/{userId}")
     public ResponseEntity<Post> createPost(@PathVariable Long userId, @RequestBody Post postDetails) {
         User user = userService.getUserById(userId);
@@ -38,6 +40,7 @@ public class PostController {
 
         return new ResponseEntity<>(post, HttpStatus.CREATED);
     }
+    @CrossOrigin
     @GetMapping("/post")
     public ResponseEntity<List<Post>> showAllPosts(){
         try {
@@ -51,7 +54,7 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @CrossOrigin
     @DeleteMapping("/post/delete/{id}")
     public void deletePost(@PathVariable(value = "id") long id) {
         postService.deletePostById(id);
