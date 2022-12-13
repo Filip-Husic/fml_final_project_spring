@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Blob;
 import java.util.Date;
 
 @Entity
@@ -26,6 +27,9 @@ public class Post {
     @Getter
     @Setter
     private String content;
+
+//    @Column
+//    private Blob picture;
 
     @ManyToOne
     @Getter

@@ -78,13 +78,13 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String username, String password, boolean isEnabled) {
+    public User(String firstName, String lastName, String email, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.isEnabled = isEnabled;
+        this.isEnabled = true;
     }
     public void addPost(Post post){
         this.postList.add(post);
