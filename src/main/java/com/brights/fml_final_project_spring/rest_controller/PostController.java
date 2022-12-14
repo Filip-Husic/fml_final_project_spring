@@ -32,7 +32,6 @@ public class PostController {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        postDetails.setPostedDate(new Date());
         postDetails.setUser(user);
 
         Post post = postService.savePost(postDetails);

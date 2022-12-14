@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Table
 @JsonIgnoreProperties("hibernateLazyInitializer")
@@ -30,8 +32,16 @@ public class Comment {
     @Column
     private String commentContent;
 
-    public Comment(Post post, String commentContent) {
-        this.post = post;
+    @Column(name = "posted_date")
+    @Getter
+    @Setter
+    private Date postedDate;
+
+    public Comment(String commentContent) {
         this.commentContent = commentContent;
+        this.postedDate = new Date();
+    }
+
+    public Comment() {
     }
 }

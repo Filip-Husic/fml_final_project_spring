@@ -60,9 +60,16 @@ public class User {
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "post_id") }
     )
+    @Getter
+    @Setter
     private List<Post> postList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_comments",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "comment_id") }
+    )
     @Getter
     @Setter
     private List<Comment> comments = new ArrayList<>();
@@ -88,6 +95,9 @@ public class User {
     }
     public void addPost(Post post){
         this.postList.add(post);
+    }
+    public void addComment(Comment comment){
+        this.comments.add(comment);
     }
 
 

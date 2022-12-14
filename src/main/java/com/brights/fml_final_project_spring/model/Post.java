@@ -47,5 +47,6 @@ public class Post {
     public Post(String title, String content) {
         this.title = title;
         this.content = content;
+        this.postedDate = new Date();
     }
 }
