@@ -19,4 +19,19 @@ public class Comment {
     @Getter
     @Setter
     private User user;
+
+    @ManyToOne
+    @Getter
+    @Setter
+    private Post post;
+
+    @Getter
+    @Setter
+    @Column
+    private String commentContent;
+
+    public Comment(Post post, String commentContent) {
+        this.post = post;
+        this.commentContent = commentContent;
+    }
 }
