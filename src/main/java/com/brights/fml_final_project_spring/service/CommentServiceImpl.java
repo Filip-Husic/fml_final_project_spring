@@ -36,4 +36,13 @@ public class CommentServiceImpl implements CommentService {
         }
         return null;
     }
+
+    @Override
+    public void deleteCommentById(long id) {
+        boolean exists = this.commentRepository.existsById(id);
+        if (!exists) {
+            throw new IllegalStateException("Comment with id " + id + " was not found.");
+        }
+        this.commentRepository.deleteById(id);
+    }
 }

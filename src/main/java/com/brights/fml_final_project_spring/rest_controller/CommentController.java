@@ -55,4 +55,19 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/comment/{id}")
+    public ResponseEntity<Comment> getCommentById(@PathVariable("id") long id) {
+        Comment comment = commentService.getCommentById(id);
+
+        if(comment != null) {
+            return new ResponseEntity<>(comment, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @CrossOrigin
+    @DeleteMapping("/comment/delete/{id}")
+    public void deleteComment(@PathVariable(value = "id") long id) {
+        commentService.deleteCommentById(id);
+    }
+
 }
