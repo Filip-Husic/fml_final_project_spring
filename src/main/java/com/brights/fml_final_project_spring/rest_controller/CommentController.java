@@ -45,4 +45,14 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
 
     }
+
+    @PutMapping("/comment/update/{id}")
+    public ResponseEntity<Comment> updateComment(@PathVariable("id") long id, @RequestBody Comment comment) {
+        Comment comment1 = commentService.updateCommentById(id, comment);
+        if(comment1 != null ) {
+            return new ResponseEntity<>(commentService.saveComment(comment1), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }
