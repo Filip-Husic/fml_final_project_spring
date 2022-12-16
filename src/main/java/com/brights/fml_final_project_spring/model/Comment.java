@@ -21,7 +21,6 @@ public class Comment {
     @ManyToOne
     @Getter
     @Setter
-    @JsonIgnore
     private User user;
 
     @ManyToOne

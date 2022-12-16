@@ -32,14 +32,12 @@ public class Message {
     @ManyToOne
     @Getter
     @Setter
-    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Getter
     @Setter
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "recipient_id", nullable = false)
     private User recipient;
 

@@ -36,7 +36,6 @@ public class Post {
     @ManyToOne
     @Getter
     @Setter
-    @JsonIgnore
     private User user;
 
     @Column(name = "posted_date")
