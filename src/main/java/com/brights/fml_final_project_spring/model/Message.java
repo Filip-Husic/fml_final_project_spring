@@ -39,6 +39,7 @@ public class Message {
     @Getter
     @Setter
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipient_id", nullable = false)
     private User recipient;
 
