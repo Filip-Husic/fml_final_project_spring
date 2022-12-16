@@ -1,9 +1,11 @@
 package com.brights.fml_final_project_spring.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Blob;
 import java.util.Date;
@@ -34,11 +36,13 @@ public class Post {
     @ManyToOne
     @Getter
     @Setter
+    @JsonIgnore
     private User user;
 
     @Column(name = "posted_date")
     @Getter
     @Setter
+    @DateTimeFormat
     private Date postedDate;
 
     public Post() {
@@ -47,6 +51,5 @@ public class Post {
     public Post(String title, String content) {
         this.title = title;
         this.content = content;
-        this.postedDate = new Date();
     }
 }

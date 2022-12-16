@@ -1,5 +1,6 @@
 package com.brights.fml_final_project_spring.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class Comment {
     @ManyToOne
     @Getter
     @Setter
+    @JsonIgnore
     private User user;
 
     @ManyToOne
