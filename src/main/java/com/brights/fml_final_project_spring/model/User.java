@@ -54,7 +54,7 @@ public class User {
     @Setter
     private boolean isEnabled;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_posts",
             joinColumns = { @JoinColumn(name = "user_id") },
@@ -64,7 +64,7 @@ public class User {
     @Setter
     private List<Post> postList = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_comments",
             joinColumns = { @JoinColumn(name = "user_id") },
@@ -74,7 +74,7 @@ public class User {
     @Setter
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Getter
     @Setter
     @JoinTable(	name = "user_roles",
