@@ -1,6 +1,6 @@
 package com.brights.fml_final_project_spring.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 

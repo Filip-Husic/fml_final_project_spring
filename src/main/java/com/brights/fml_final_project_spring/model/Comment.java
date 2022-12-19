@@ -2,14 +2,14 @@ package com.brights.fml_final_project_spring.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
-@Table
+@Table(name = "comments")
 @JsonIgnoreProperties("hibernateLazyInitializer")
 public class Comment {
     @Id
@@ -19,12 +19,14 @@ public class Comment {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "users_id", referencedColumnName = "id")
     @Getter
     @Setter
     @JsonIgnore
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "posts_id", referencedColumnName = "id", nullable = false)
     @Getter
     @Setter
     private Post post;
@@ -39,6 +41,7 @@ public class Comment {
     @Setter
     private Date postedDate;
 
+    @SuppressWarnings("unused")
     public Comment(String commentContent) {
         this.commentContent = commentContent;
         this.postedDate = new Date();

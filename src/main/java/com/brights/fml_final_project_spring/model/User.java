@@ -1,10 +1,11 @@
 package com.brights.fml_final_project_spring.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table
+@Table(name = "users")
 @JsonIgnoreProperties("hibernateLazyInitializer")
 public class User {
     @Id
@@ -49,37 +50,38 @@ public class User {
     @Setter
     private String password;
 
+    @Transient
+    @Getter
+    @Setter
+    private String newPassword;
+
+    @Transient
+    @Getter
+    @Setter
+    private String newPasswordRepeat;
+
     @Column
     @Getter
     @Setter
     private boolean isEnabled;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "user_posts",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "post_id") }
-    )
-    @Getter
-    @Setter
-    private List<Post> postList = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "user_comments",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "comment_id") }
-    )
+    @OneToMany (fetch = FetchType.LAZY,mappedBy = "id")
     @Getter
     @Setter
+    @JsonIgnore
+    private List<Post> postList;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},mappedBy = "id")
+    @Getter
+    @Setter
+    @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},mappedBy = "id")
     @Getter
     @Setter
-    @JoinTable(	name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
     public User() {
@@ -92,6 +94,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.isEnabled = true;
+        this.roles.add(new Role(ERole.ROLE_USER));
     }
     public void addPost(Post post){
         this.postList.add(post);

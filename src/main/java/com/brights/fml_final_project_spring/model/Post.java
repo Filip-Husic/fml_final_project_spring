@@ -2,16 +2,16 @@ package com.brights.fml_final_project_spring.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Blob;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table
+@Table(name ="posts")
 @JsonIgnoreProperties("hibernateLazyInitializer")
 public class Post {
     @Id
@@ -34,6 +34,7 @@ public class Post {
 //    private Blob picture;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @Getter
     @Setter
     @JsonIgnore
@@ -45,9 +46,15 @@ public class Post {
     @DateTimeFormat
     private Date postedDate;
 
+    @OneToMany (mappedBy = "post")
+    @Getter
+    @Setter
+    private List<Comment> commentList;
+
     public Post() {
     }
 
+    @SuppressWarnings("unused")
     public Post(String title, String content) {
         this.title = title;
         this.content = content;

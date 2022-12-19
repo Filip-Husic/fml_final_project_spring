@@ -4,7 +4,7 @@ import com.brights.fml_final_project_spring.model.User;
 import com.brights.fml_final_project_spring.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,17 +13,16 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
-//    private final PasswordEncoder encoder;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @CrossOrigin
     @PostMapping("/user")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
-            User user1 = userService.saveUser(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername(), user.getPassword()));
+            User user1 = userService.saveUser(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername(), passwordEncoder.encode(user.getPassword())));
 
             return new ResponseEntity<>(user1, HttpStatus.CREATED);
 
@@ -32,7 +31,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin
     @GetMapping("/user")
     public ResponseEntity<List<User>> showAllUsers(){
         try {
@@ -63,7 +61,6 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    @CrossOrigin
     @DeleteMapping("/user/delete/{id}")
     public void deleteUser(@PathVariable(value = "id") long id) {
 
