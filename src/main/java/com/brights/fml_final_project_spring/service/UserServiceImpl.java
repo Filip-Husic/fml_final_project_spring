@@ -37,8 +37,6 @@ public class UserServiceImpl implements UserService {
     public User updateUserById(long id, User user) {
         User userData = getUserById(id);
         if(userData != null) {
-            userData.setFirstName(user.getFirstName());
-            userData.setLastName(user.getLastName());
             userData.setEmail(user.getEmail());
             userData.setUsername(user.getUsername());
             userData.setPassword(user.getPassword());

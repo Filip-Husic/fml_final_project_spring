@@ -2,6 +2,7 @@ package com.brights.fml_final_project_spring.rest_controller;
 
 import com.brights.fml_final_project_spring.model.User;
 import com.brights.fml_final_project_spring.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +16,7 @@ public class UserController {
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -22,9 +24,11 @@ public class UserController {
     @PostMapping("/user")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
-            User user1 = userService.saveUser(new User(user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername(), passwordEncoder.encode(user.getPassword())));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userService.saveUser(user);
+            System.out.println("created new user: " + user.getUsername());
 
-            return new ResponseEntity<>(user1, HttpStatus.CREATED);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
 
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

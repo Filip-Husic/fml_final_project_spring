@@ -1,6 +1,5 @@
 package com.brights.fml_final_project_spring.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +36,6 @@ public class Post {
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @Getter
     @Setter
-    @JsonIgnore
     private User user;
 
     @Column(name = "posted_date")

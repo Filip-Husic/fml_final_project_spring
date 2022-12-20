@@ -14,7 +14,11 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
 @JsonIgnoreProperties("hibernateLazyInitializer")
 public class User {
     @Id
@@ -22,16 +26,6 @@ public class User {
     @Getter
     @Setter
     private Long id;
-
-    @Column(name = "first_name",length = 30,nullable = false)
-    @Getter
-    @Setter
-    private String firstName;
-
-    @Column(name = "last_name",length = 30,nullable = false)
-    @Getter
-    @Setter
-    private String lastName;
 
     @Column(name = "email",length = 50,nullable = false,unique = true)
     @Getter
@@ -78,7 +72,10 @@ public class User {
     @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE},mappedBy = "id")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Getter
     @Setter
     @JsonIgnore
@@ -87,9 +84,7 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
