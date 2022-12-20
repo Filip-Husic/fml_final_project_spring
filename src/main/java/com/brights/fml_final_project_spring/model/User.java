@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,8 +36,6 @@ public class User {
     @Setter
     private String username;
     @Size(min = 6)
-    @Pattern(regexp = "^[a-zA-Z0-9_]+$",
-            message = "Password can only contain letters, numbers and underscores!")
     @Column
     @Getter
     @Setter
