@@ -22,7 +22,6 @@ public class Comment {
     @JoinColumn(name = "users_id", referencedColumnName = "id")
     @Getter
     @Setter
-    @JsonIgnore
     private User user;
 
     @ManyToOne

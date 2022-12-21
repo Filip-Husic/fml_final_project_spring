@@ -41,16 +41,6 @@ public class User {
     @Setter
     private String password;
 
-    @Transient
-    @Getter
-    @Setter
-    private String newPassword;
-
-    @Transient
-    @Getter
-    @Setter
-    private String newPasswordRepeat;
-
     @Column
     @Getter
     @Setter

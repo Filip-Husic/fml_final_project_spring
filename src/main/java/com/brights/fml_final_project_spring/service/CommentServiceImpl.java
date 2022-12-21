@@ -1,13 +1,10 @@
 package com.brights.fml_final_project_spring.service;
 
 import com.brights.fml_final_project_spring.model.Comment;
-import com.brights.fml_final_project_spring.model.Post;
 import com.brights.fml_final_project_spring.repository.CommentRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -22,5 +19,30 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment saveComment(Comment comment) {
         return this.commentRepository.save(comment);
+    }
+
+    @Override
+    public Comment getCommentById(Long commentId) {
+        return commentRepository.findById(commentId).orElse(null);
+    }
+
+    @Override
+    public Comment updateCommentById(long id, Comment comment) {
+        Comment commentData = getCommentById(id);
+        if(commentData != null) {
+            commentData.setCommentContent(comment.getCommentContent());
+
+            return commentData;
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteCommentById(long id) {
+        boolean exists = this.commentRepository.existsById(id);
+        if (!exists) {
+            throw new IllegalStateException("Comment with id " + id + " was not found.");
+        }
+        this.commentRepository.deleteById(id);
     }
 }
