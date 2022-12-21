@@ -1,12 +1,12 @@
 package com.brights.fml_final_project_spring.service;
 
 import com.brights.fml_final_project_spring.model.Post;
-import com.brights.fml_final_project_spring.model.User;
 import com.brights.fml_final_project_spring.repository.PostRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,8 +29,10 @@ public class PostServiceImpl implements PostService {
         Post postData = getPostById(id);
         if(postData != null) {
             postData.setTitle(post.getTitle());
-            postData.setContent(post.getContent());
-            postData.setPostedDate(post.getPostedDate());
+            postData.setUrl(post.getUrl());
+            postData.setAlbumId(postData.getAlbumId());
+            postData.setThumbnailUrl(post.getThumbnailUrl());
+            postData.setPostedDate(new Date());
             return postData;
         }
         return null;

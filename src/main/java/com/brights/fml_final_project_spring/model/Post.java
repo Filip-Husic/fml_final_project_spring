@@ -19,18 +19,24 @@ public class Post {
     @Setter
     private Long id;
 
+    @Column(name = "album_id")
+    @Getter
+    @Setter
+    private int albumId;
+
     @Column(name = "title")
     @Getter
     @Setter
     private String title;
-    @Lob
-    @Column(name = "content")
+    @Column(name = "url")
     @Getter
     @Setter
-    private String content;
+    private String url;
 
-//    @Column
-//    private Blob picture;
+    @Column(name = "thumbnail_url")
+    @Getter
+    @Setter
+    private String thumbnailUrl;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
@@ -52,9 +58,10 @@ public class Post {
     public Post() {
     }
 
-    @SuppressWarnings("unused")
-    public Post(String title, String content) {
+    public Post(int albumId, String title, String url, String thumbnailUrl) {
+        this.albumId = albumId;
         this.title = title;
-        this.content = content;
+        this.url = url;
+        this.thumbnailUrl = thumbnailUrl;
     }
 }
