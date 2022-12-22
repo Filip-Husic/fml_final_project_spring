@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -30,6 +29,69 @@ public class PostController {
         this.postService = postService;
         this.userService = userService;
         this.pictureRepository = pictureRepository;
+    }
+
+    @CrossOrigin
+    @PostMapping("/{userId}")
+    public ResponseEntity<PostDto> createPost(@PathVariable Long userId, @RequestBody PostDto postDetails) {
+        User user = userService.getUserById(userId);
+        //TODO check user by principal username and find it in repository
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Post post = PostDto.toEntity(postDetails);
+        post.setUser(user);
+
+        post = postService.savePost(post);
+        user.addPost(post);
+        postDetails = PostDto.toDto(post);
+
+        return new ResponseEntity<>(postDetails, HttpStatus.CREATED);
+    }
+
+    @CrossOrigin
+    @GetMapping("/")
+    public ResponseEntity<List<PostDto>> showAllPosts() {
+        try {
+            List<PostDto> postDtoList = postService.getAllPosts().stream().map(post -> {
+                PostDto postDto = PostDto.toDto(post);
+                postDto.setPath("/api/post/" + post.getId() + "/picture");
+                return postDto;
+            }).toList();
+            if (postDtoList.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>(postDtoList, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Post> getPostById(@PathVariable("id") long id) {
+        Post post = postService.getPostById(id);
+
+        if (post != null) {
+            return new ResponseEntity<>(post, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody Post post) {
+        Post post1 = postService.updatePostById(id, post);
+        if (post1 != null) {
+            return new ResponseEntity<>(postService.savePost(post1), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/delete/{id}")
+    public void deletePost(@PathVariable(value = "id") long id) {
+        postService.deletePostById(id);
     }
 
     @PostMapping("/{postId}/picture")
@@ -66,65 +128,5 @@ public class PostController {
                 .contentType(MediaType.parseMediaType(picture.getMimeType()))
                 .contentLength(picture.getPictureData().length)
                 .body(picture.getPictureData());
-    }
-
-
-    @CrossOrigin
-    @PostMapping("/{userId}")
-    public ResponseEntity<PostDto> createPost(@PathVariable Long userId, Principal principal, @RequestBody PostDto postDetails) {
-        User user = userService.getUserById(userId);
-        //TODO check user by principal username and find it in repository
-
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Post post = PostDto.toEntity(postDetails);
-        post.setUser(user);
-
-        post = postService.savePost(post);
-        user.addPost(post);
-        postDetails = PostDto.toDto(post);
-
-        return new ResponseEntity<>(postDetails, HttpStatus.CREATED);
-    }
-
-    @CrossOrigin
-    @GetMapping("/")
-    public ResponseEntity<List<Post>> showAllPosts() {
-        try {
-            List<Post> postList = postService.getAllPosts();
-            if (postList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            } else {
-                return new ResponseEntity<>(postList, HttpStatus.OK);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable("id") long id) {
-        Post post = postService.getPostById(id);
-
-        if (post != null) {
-            return new ResponseEntity<>(post, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable("id") long id, @RequestBody Post post) {
-        Post post1 = postService.updatePostById(id, post);
-        if (post1 != null) {
-            return new ResponseEntity<>(postService.savePost(post1), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @CrossOrigin
-    @DeleteMapping("/delete/{id}")
-    public void deletePost(@PathVariable(value = "id") long id) {
-        postService.deletePostById(id);
     }
 }
