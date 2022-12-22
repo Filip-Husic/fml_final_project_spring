@@ -29,9 +29,6 @@ public class PostServiceImpl implements PostService {
         Post postData = getPostById(id);
         if(postData != null) {
             postData.setTitle(post.getTitle());
-            postData.setUrl(post.getUrl());
-            postData.setAlbumId(postData.getAlbumId());
-            postData.setThumbnailUrl(post.getThumbnailUrl());
             postData.setPostedDate(new Date());
             return postData;
         }
@@ -50,7 +47,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post getPostById(Long postId) {
-        return postRepository.findById(postId).orElse(null);
+        return postRepository.findById(postId).orElseThrow();
     }
 
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,24 +20,25 @@ public class Post {
     @Setter
     private Long id;
 
-    @Column(name = "album_id")
-    @Getter
-    @Setter
-    private int albumId;
-
     @Column(name = "title")
     @Getter
     @Setter
     private String title;
-    @Column(name = "url")
-    @Getter
-    @Setter
-    private String url;
 
-    @Column(name = "thumbnail_url")
+    @Column(name = "price")
     @Getter
     @Setter
-    private String thumbnailUrl;
+    private int price;
+
+//    @Column(name = "url")
+//    @Getter
+//    @Setter
+//    private String url;
+//
+//    @Column(name = "thumbnail_url")
+//    @Getter
+//    @Setter
+//    private String thumbnailUrl;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
@@ -55,13 +57,9 @@ public class Post {
     @Setter
     private List<Comment> commentList;
 
-    public Post() {
-    }
-
-    public Post(int albumId, String title, String url, String thumbnailUrl) {
-        this.albumId = albumId;
-        this.title = title;
-        this.url = url;
-        this.thumbnailUrl = thumbnailUrl;
-    }
+    @OneToOne
+    @Getter
+    @Setter
+    @Nullable
+    private Picture picture;
 }
