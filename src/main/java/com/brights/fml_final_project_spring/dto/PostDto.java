@@ -24,6 +24,10 @@ public class PostDto {
     @Setter
     private String filename;
 
+    @Getter
+    @Setter
+    private String author;
+
 
 
     public static Post toEntity(PostDto postDto){
@@ -41,6 +45,7 @@ public class PostDto {
         postDto.setId(post.getId());
         postDto.setTitle(post.getTitle());
         postDto.setPrice(post.getPrice());
+        postDto.setAuthor(post.getUser().getUsername());
 
         return postDto;
     }
